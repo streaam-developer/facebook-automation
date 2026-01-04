@@ -1,0 +1,8 @@
+instaloader
+moviepy
+requests
+pymongo
+flask
+ffmpeg-python
+pillow
+python-dotenv

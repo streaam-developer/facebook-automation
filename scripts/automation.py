@@ -1,0 +1,46 @@
+import logging
+from config.config import LOG_FILE
+from scripts.instagram_downloader import InstagramDownloader
+from scripts.video_editor import VideoEditor
+from scripts.facebook_uploader import FacebookUploader
+from scripts.database import Database
+
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+class Automation:
+    def __init__(self):
+        self.downloader = InstagramDownloader()
+        self.editor = VideoEditor()
+        self.uploader = FacebookUploader()
+        self.db = Database()
+
+    def process_reel(self, reel_url, description=""):
+        try:
+            logging.info(f"Starting processing for {reel_url}")
+
+            # Download
+            video_path = self.downloader.download_reel(reel_url)
+            logging.info(f"Downloaded: {video_path}")
+
+            # Edit
+            edited_path = self.editor.modify_video(video_path)
+            logging.info(f"Edited: {edited_path}")
+
+            # Upload
+            results = self.uploader.upload_to_all_pages(edited_path, description)
+            logging.info(f"Uploaded: {results}")
+
+            # Save to DB
+            self.db.insert_upload(reel_url, video_path, edited_path, results)
+            logging.info("Saved to database")
+
+            return {"status": "success", "results": results}
+
+        except Exception as e:
+            logging.error(f"Error processing {reel_url}: {e}")
+            return {"status": "failed", "error": str(e)}
+
+if __name__ == "__main__":
+    automation = Automation()
+    result = automation.process_reel("https://www.instagram.com/reel/example/")
+    print(result)
