@@ -1,10 +1,12 @@
 import logging
+import os
 from config.config import LOG_FILE
 from scripts.instagram_downloader import InstagramDownloader
 from scripts.video_editor import VideoEditor
 from scripts.facebook_uploader import FacebookUploader
 from scripts.database import Database
 
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Automation:
