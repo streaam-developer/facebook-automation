@@ -4,17 +4,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # MongoDB settings
-MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/')
+MONGO_URI = os.getenv('MONGO_URI', 'mongodb+srv://sonukumarkrbbu60:lfkTvljnt25ehTt9@cluster0.2wrbftx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 DATABASE_NAME = 'facebook_automation'
 COLLECTION_NAME = 'uploads'
 
 # Facebook settings
 FACEBOOK_ACCESS_TOKEN = os.getenv('FACEBOOK_ACCESS_TOKEN')
-FACEBOOK_PAGE_IDS = os.getenv('FACEBOOK_PAGE_IDS', '').split(',')  # comma separated
+FACEBOOK_PAGE_IDS = os.getenv('FACEBOOK_PAGE_IDS', '888810180973882,101568792628030').split(',')  # comma separated
 
 # Instagram settings
-INSTAGRAM_USERNAME = os.getenv('INSTAGRAM_USERNAME')
-INSTAGRAM_PASSWORD = os.getenv('INSTAGRAM_PASSWORD')
+INSTAGRAM_USERNAME = os.getenv('INSTAGRAM_USERNAME', 'ankita_kum678')
+INSTAGRAM_PASSWORD = os.getenv('INSTAGRAM_PASSWORD', 'ApqK*.J6HPbQ2B')
 
 # Video settings
 VIDEO_OUTPUT_DIR = 'data/videos'
