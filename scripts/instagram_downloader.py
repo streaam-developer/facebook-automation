@@ -6,11 +6,7 @@ from config.config import INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD, VIDEO_OUTPUT_D
 class InstagramDownloader:
     def __init__(self):
         self.loader = instaloader.Instaloader()
-        if INSTAGRAM_USERNAME and INSTAGRAM_PASSWORD:
-            try:
-                self.loader.login(INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD)
-            except Exception as e:
-                print(f"Login failed: {e}")
+        # No login needed for public reels
         # Set download directory
         self.loader.dirname_pattern = VIDEO_OUTPUT_DIR
 
