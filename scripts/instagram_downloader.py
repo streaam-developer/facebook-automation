@@ -24,9 +24,9 @@ class InstagramDownloader:
 
         try:
             post = instaloader.Post.from_shortcode(self.loader.context, shortcode)
-            target_dir = os.path.join(VIDEO_OUTPUT_DIR, shortcode)
-            self.loader.download_post(post, target=target_dir)
+            self.loader.download_post(post, target=shortcode)
             # Find the downloaded video file
+            target_dir = os.path.join(VIDEO_OUTPUT_DIR, shortcode)
             for file in os.listdir(target_dir):
                 if file.endswith('.mp4'):
                     return os.path.join(target_dir, file)
