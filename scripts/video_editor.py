@@ -14,7 +14,7 @@ class VideoEditor:
         clip = VideoFileClip(video_path)
 
         # Create text clip for watermark
-        txt_clip = TextClip(watermark_text, fontsize=50, font='Arial', color='white', bg_color='black', size=(clip.w, 100))
+        txt_clip = TextClip(txt=watermark_text, fontsize=50, font='Arial', color='white', bg_color='black', size=(clip.w, 100))
         txt_clip = txt_clip.set_position(('center', 'bottom')).set_duration(clip.duration)
 
         # Composite the video with watermark
