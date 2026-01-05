@@ -14,11 +14,15 @@ class VideoEditor:
         clip = VideoFileClip(video_path)
 
         # Create text clip for watermark
-        txt_clip = TextClip(watermark_text)
-        txt_clip = txt_clip.set_position(('center', 'bottom')).set_duration(clip.duration)
+        try:
+            txt_clip = TextClip(watermark_text, font='Arial')
+            txt_clip = txt_clip.set_position(('center', 'bottom')).set_duration(clip.duration)
 
-        # Composite the video with watermark
-        video_with_watermark = CompositeVideoClip([clip, txt_clip])
+            # Composite the video with watermark
+            video_with_watermark = CompositeVideoClip([clip, txt_clip])
+        except Exception as e:
+            # If watermark fails, just use the original clip
+            video_with_watermark = clip
 
         # Write the result to a file
         video_with_watermark.write_videofile(output_path, codec='libx264', audio_codec='aac')
