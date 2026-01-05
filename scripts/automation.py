@@ -28,8 +28,12 @@ class Automation:
             logging.info(f"Starting processing for {reel_url}")
 
             # Download
-            video_path = self.downloader.download_reel(reel_url)
+            video_path, caption = self.downloader.download_reel(reel_url)
             logging.info(f"Downloaded: {video_path}")
+
+            # Use caption as description if no description provided
+            if not description:
+                description = caption
 
             # Edit
             edited_path = self.editor.modify_video(video_path)

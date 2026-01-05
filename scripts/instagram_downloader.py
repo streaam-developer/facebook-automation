@@ -27,15 +27,18 @@ class InstagramDownloader:
             post = instaloader.Post.from_shortcode(self.loader.context, shortcode)
             self.loader.download_post(post, target='.')
             # Find the downloaded video file
+            video_path = None
             for file in os.listdir(target_dir):
                 if file.endswith('.mp4'):
-                    return os.path.join(target_dir, file)
-            return None
+                    video_path = os.path.join(target_dir, file)
+                    break
+            caption = post.caption if post.caption else ""
+            return video_path, caption
         except Exception as e:
             raise Exception(f"Failed to download reel: {e}")
 
 if __name__ == "__main__":
     downloader = InstagramDownloader()
     url = "https://www.instagram.com/reel/example_shortcode/"
-    video_path = downloader.download_reel(url)
-    print(f"Downloaded to: {video_path}")
+    video_path, caption = downloader.download_reel(url)
+    print(f"Downloaded to: {video_path}, Caption: {caption}")

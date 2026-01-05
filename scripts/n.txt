@@ -1,0 +1,1 @@
+https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Faccounts&version=v24.0
