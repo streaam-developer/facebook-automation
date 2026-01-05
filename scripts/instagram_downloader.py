@@ -7,8 +7,7 @@ class InstagramDownloader:
     def __init__(self):
         self.loader = instaloader.Instaloader()
         # No login needed for public reels
-        # Set download directory
-        self.loader.dirname_pattern = VIDEO_OUTPUT_DIR
+        # dirname_pattern will be set per download
 
     def extract_shortcode(self, url):
         # Extract shortcode from Instagram URL
@@ -22,11 +21,12 @@ class InstagramDownloader:
         if not shortcode:
             raise ValueError("Invalid Instagram reel URL")
 
+        target_dir = os.path.join(VIDEO_OUTPUT_DIR, shortcode)
         try:
+            self.loader.dirname_pattern = target_dir
             post = instaloader.Post.from_shortcode(self.loader.context, shortcode)
-            self.loader.download_post(post, target=shortcode)
+            self.loader.download_post(post, target='.')
             # Find the downloaded video file
-            target_dir = os.path.join(VIDEO_OUTPUT_DIR, shortcode)
             for file in os.listdir(target_dir):
                 if file.endswith('.mp4'):
                     return os.path.join(target_dir, file)
