@@ -6,12 +6,29 @@ class FacebookUploader:
     def __init__(self):
         self.access_token = FACEBOOK_ACCESS_TOKEN
         self.page_ids = FACEBOOK_PAGE_IDS
+        self.page_tokens = self.get_page_tokens()
+
+    def get_page_tokens(self):
+        url = f"https://graph.facebook.com/v18.0/me/accounts?access_token={self.access_token}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            tokens = {}
+            for page in data.get('data', []):
+                page_id = page['id']
+                if page_id in self.page_ids:
+                    tokens[page_id] = page['access_token']
+            return tokens
+        else:
+            raise Exception(f"Failed to get page tokens: {response.text}")
 
     def upload_to_page(self, page_id, video_path, description=""):
+        if page_id not in self.page_tokens:
+            raise Exception(f"No access token for page {page_id}")
         url = f"https://graph.facebook.com/v18.0/{page_id}/videos"
         files = {'source': open(video_path, 'rb')}
         data = {
-            'access_token': self.access_token,
+            'access_token': self.page_tokens[page_id],
             'description': description
         }
         response = requests.post(url, files=files, data=data)
