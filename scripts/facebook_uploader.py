@@ -5,7 +5,7 @@ from config.config import FACEBOOK_ACCESS_TOKEN, FACEBOOK_PAGE_IDS
 class FacebookUploader:
     def __init__(self):
         self.access_token = FACEBOOK_ACCESS_TOKEN
-        self.page_ids = FACEBOOK_PAGE_IDS
+        self.page_ids = []
         self.page_tokens = self.get_page_tokens()
 
     def get_page_tokens(self):
@@ -16,8 +16,8 @@ class FacebookUploader:
             tokens = {}
             for page in data.get('data', []):
                 page_id = page['id']
-                if page_id in self.page_ids:
-                    tokens[page_id] = page['access_token']
+                tokens[page_id] = page['access_token']
+                self.page_ids.append(page_id)
             return tokens
         else:
             raise Exception(f"Failed to get page tokens: {response.text}")
