@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 from config.config import LOG_FILE
 from scripts.instagram_downloader import InstagramDownloader
 from scripts.video_editor import VideoEditor
@@ -46,6 +47,12 @@ class Automation:
             # Save to DB
             self.db.insert_upload(reel_url, video_path, edited_path, results)
             logging.info("Saved to database")
+
+            # Clean up files
+            target_dir = os.path.dirname(video_path)
+            shutil.rmtree(target_dir)
+            os.remove(edited_path)
+            logging.info("Cleaned up files")
 
             return {"status": "success", "results": results}
 
